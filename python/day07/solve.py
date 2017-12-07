@@ -30,10 +30,10 @@ while True:
     for child in programs[cur][1]:
         bins[calc_weight(child)].append(child)
     if len(bins) > 1:
-        cur = min(bins.values(), key=len).pop()
-        v1, v2 = bins.keys()
-        diff = abs(v1 - v2)
+        (w0, wrong), (w1, _) = sorted(bins.items(), key=lambda i: len(i[1]))
+        cur = wrong.pop()
+        diff = w1 - w0
     else:
         break
 
-print("Part 2:", programs[cur][0] - diff)
+print("Part 2:", programs[cur][0] + diff)
