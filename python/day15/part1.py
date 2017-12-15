@@ -2,17 +2,13 @@
 
 from itertools import islice
 
-def generator(seed, A):
-    n = seed
-    factor = 16807 if A else 48271
+def generator(n, factor):
     while True:
-        n = n * factor
-        n = n % 2147483647
-        yield n
+        n = n * factor % 2147483647
+        yield n & 0xFFFF
 
-A = generator(634, True)
-B = generator(301, False)
+A = generator(634, 16807)
+B = generator(301, 48271)
 
-mask = 0b1111111111111111
-part1 = sum(a & mask == b & mask for a, b in islice(zip(A, B), 40_000_000))
+part1 = sum(a == b for a, b in islice(zip(A, B), 40_000_000))
 print(part1)
